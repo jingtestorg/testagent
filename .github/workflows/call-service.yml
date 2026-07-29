@@ -22,9 +22,17 @@ jobs:
           python3 - <<'EOF'
           import json, os, sys, urllib.request, urllib.parse
 
-          sci_tenant_url = os.environ["SCI_TENANT_URL"]
-          sci_client_id  = os.environ["SCI_CLIENT_ID"]
+          sci_tenant_url = os.environ.get("SCI_TENANT_URL", "").strip()
+          sci_client_id  = os.environ.get("SCI_CLIENT_ID", "").strip()
           github_output  = os.environ["GITHUB_OUTPUT"]
+
+          if not sci_tenant_url:
+              print("Error: IAS_TENANT_URL variable is not set or empty in GitHub org/repo variables")
+              sys.exit(1)
+          if not sci_client_id:
+              print("Error: IAS_CLIENT_ID variable is not set or empty in GitHub org/repo variables")
+              sys.exit(1)
+          print(f"Using IAS tenant: {sci_tenant_url}")
 
           # Step 1: get short-lived GitHub OIDC JWT
           req = urllib.request.Request(
