@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          path: solution
 
       - name: Fetch SCI token
         id: fetch-token
@@ -29,7 +31,7 @@ jobs:
         id: zip-solution
         uses: ./.github/actions/zip-solution
         with:
-          path: .
+          path: ./solution
 
       - name: Import solution
         id: import-solution
