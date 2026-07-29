@@ -1,0 +1,30 @@
+name: Import Solution
+description: Imports a zipped solution into Joule Studio and returns the solution ID.
+
+inputs:
+  sciToken:
+    description: The Cloud Identity Services access token
+    required: true
+  solutionHandlingApiBaseUrl:
+    description: Base URL of the Joule Studio solution handling API
+    required: true
+  solutionZip:
+    description: Path to the zipped solution file
+    required: true
+
+outputs:
+  solutionId:
+    description: The ID of the imported solution
+    value: ${{ steps.import.outputs.solutionId }}
+
+runs:
+  using: composite
+  steps:
+    - name: Import solution
+      id: import
+      shell: bash
+      env:
+        SCI_TOKEN: ${{ inputs.sciToken }}
+        SOLUTION_HANDLING_API_BASE_URL: ${{ inputs.solutionHandlingApiBaseUrl }}
+        SOLUTION_ZIP: ${{ inputs.solutionZip }}
+      run: python $GITHUB_ACTION_PATH/import.py

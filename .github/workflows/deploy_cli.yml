@@ -1,0 +1,39 @@
+name: Deploy to Joule Studio (CLI)
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  deploy:
+    runs-on: [solinas]
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Joule Studio CLI
+        uses: ./.github/actions/setup-jl
+
+      - name: Fetch SCI token
+        id: fetch-token
+        uses: ./.github/actions/token-fetch
+        with:
+          sciTenantUrl: ${{ vars.SCI_TENANT_URL }}
+          sciClientId: ${{ vars.SCI_CLIENT_ID }}
+
+      - name: Zip solution
+        id: zip-solution
+        uses: ./.github/actions/zip-solution-cli
+        with:
+          path: ${{ github.workspace }}
+
+      - name: Deploy solution
+        uses: ./.github/actions/deploy-solution-cli
+        with:
+          sciToken: ${{ steps.fetch-token.outputs.sciToken }}
+          solutionZip: ${{ steps.zip-solution.outputs.solutionZip }}
+          path: ${{ github.workspace }}
+          jouleStudioHost: https://api.dev.eu12.studio.joule.cloud.sap/cli/v1

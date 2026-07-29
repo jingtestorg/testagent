@@ -1,0 +1,63 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "score": 100.0
+  },
+  "sections": [
+    {
+      "name": "Structure Tests",
+      "marker": "structure",
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "score": 0.0,
+      "tests": []
+    },
+    {
+      "name": "Server Tests",
+      "marker": "server",
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "score": 0.0,
+      "tests": []
+    },
+    {
+      "name": "Agent Tests",
+      "marker": "agent_tests",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "score": 100.0,
+      "tests": [
+        {
+          "name": "test_prefix_prepended_when_missing",
+          "outcome": "passed",
+          "duration": 5.2478
+        },
+        {
+          "name": "test_prefix_not_duplicated_when_present",
+          "outcome": "passed",
+          "duration": 0.0011
+        },
+        {
+          "name": "test_all_milestones_logged_on_success",
+          "outcome": "passed",
+          "duration": 0.0013
+        },
+        {
+          "name": "test_m1_missed_logged_for_empty_input",
+          "outcome": "passed",
+          "duration": 0.0005
+        },
+        {
+          "name": "test_full_stream_returns_polite_response",
+          "outcome": "passed",
+          "duration": 0.0016
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+name: Deploy to Joule Studio
+
+on:
+  workflow_dispatch:
+
+env:
+  SCI_TENANT_URL: ${{ vars.SCI_TENANT_URL }}
+  SCI_CLIENT_ID: ${{ vars.SCI_CLIENT_ID }}
+  API_BASE_URL: ${{ vars.SOLUTION_HANDLING_API_BASE_URL }}
+
+jobs:
+  deploy:
+    runs-on: [solinas]
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch SCI token
+        id: fetch-token
+        uses: ./.github/actions/token-fetch
+        with:
+          sciTenantUrl: ${{ vars.SCI_TENANT_URL }}
+          sciClientId: ${{ vars.SCI_CLIENT_ID }}
+
+      - name: Zip solution
+        id: zip-solution
+        uses: ./.github/actions/zip-solution
+        with:
+          path: ./showcase-agent-main
+
+      - name: Import solution
+        id: import-solution
+        uses: ./.github/actions/import-solution
+        with:
+          sciToken: ${{ steps.fetch-token.outputs.sciToken }}
+          solutionHandlingApiBaseUrl: ${{ vars.SOLUTION_HANDLING_API_BASE_URL }}
+          solutionZip: ${{ steps.zip-solution.outputs.solutionZip }}
+
+      - name: Deploy solution
+        uses: ./.github/actions/deploy-solution
+        with:
+          sciToken: ${{ steps.fetch-token.outputs.sciToken }}
+          solutionHandlingApiBaseUrl: ${{ vars.SOLUTION_HANDLING_API_BASE_URL }}
+          solutionId: ${{ steps.import-solution.outputs.solutionId }}

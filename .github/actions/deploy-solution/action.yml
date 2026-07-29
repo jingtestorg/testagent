@@ -1,0 +1,24 @@
+name: Deploy Solution
+description: Deploys (starts) a previously imported solution in Joule Studio.
+
+inputs:
+  sciToken:
+    description: The Cloud Identity Services access token
+    required: true
+  solutionHandlingApiBaseUrl:
+    description: Base URL of the Joule Studio solution handling API
+    required: true
+  solutionId:
+    description: The ID of the solution to deploy
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy solution
+      shell: bash
+      env:
+        SCI_TOKEN: ${{ inputs.sciToken }}
+        SOLUTION_HANDLING_API_BASE_URL: ${{ inputs.solutionHandlingApiBaseUrl }}
+        SOLUTION_ID: ${{ inputs.solutionId }}
+      run: python $GITHUB_ACTION_PATH/deploy.py
