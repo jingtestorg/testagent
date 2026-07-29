@@ -45,6 +45,14 @@ jobs:
           with urllib.request.urlopen(req) as resp:
               github_jwt = json.loads(resp.read())["value"]
 
+          # Print JWT claims for debugging (iss, sub, aud) — no sensitive data
+          import base64
+          parts = github_jwt.split(".")
+          for label, part in zip(["header", "payload"], parts[:2]):
+              padded = part + "=" * (-len(part) % 4)
+              claims = json.loads(base64.b64decode(padded))
+              print(f"JWT {label}: {json.dumps({k: claims[k] for k in ['iss','sub','aud'] if k in claims}, indent=2)}")
+
           # Step 2: exchange GitHub JWT for IAS token using client_assertion (no client secret needed)
           payload = urllib.parse.urlencode({
               "grant_type": "client_credentials",
