@@ -44,7 +44,6 @@ for part in parts[:2]:
 payload = urllib.parse.urlencode({
     "grant_type": "client_credentials",
     "client_id": sci_client_id,
-    "resource": "urn:sap:identity:application:provider:name:build",
     "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
     "client_assertion": github_jwt,
 }).encode()
@@ -68,6 +67,7 @@ if not sci_token:
     sys.exit(1)
 
 print("sci_token successfully retrieved")
+print(f"sci_token raw: {sci_token}")
 parts = sci_token.split(".")
 for part in parts[:2]:
     padded = part + "=" * (-len(part) % 4)
