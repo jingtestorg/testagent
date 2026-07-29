@@ -19,7 +19,8 @@ if not source.is_dir():
     sys.exit(1)
 
 # --- Zip solution directory ---
-zip_path = source.with_suffix(".zip")
+zip_name = source.name if source.name else "solution"
+zip_path = source.parent / f"{zip_name}.zip"
 with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
     for file in source.rglob("*"):
         if any(part in EXCLUDED_DIRS for part in file.parts):
