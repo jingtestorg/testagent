@@ -13,31 +13,61 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Get GitHub OIDC token
-        id: github_token
-        run: |
-          GITHUB_TOKEN=$(curl -sSL \
-            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            -H "Accept: application/json;api-version=2.0" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://${{ vars.IAS_TENANT }}" \
-            | jq -r '.value')
-          echo "::add-mask::$GITHUB_TOKEN"
-          echo "github_oidc_token=$GITHUB_TOKEN" >> "$GITHUB_OUTPUT"
-
-      - name: Exchange GitHub OIDC token for IAS access token
+      - name: Get GitHub OIDC token and exchange for IAS token
         id: ias_token
+        env:
+          SCI_TENANT_URL: ${{ vars.IAS_TENANT_URL }}
+          SCI_CLIENT_ID: ${{ vars.IAS_CLIENT_ID }}
         run: |
-          RESPONSE=$(curl -sSL -X POST \
-            "https://${{ vars.IAS_TENANT }}/oauth2/token" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer" \
-            -d "assertion=${{ steps.github_token.outputs.github_oidc_token }}" \
-            -d "client_id=${{ secrets.IAS_CLIENT_ID }}" \
-            -d "client_secret=${{ secrets.IAS_CLIENT_SECRET }}")
-          echo "Token exchange response: $(echo $RESPONSE | jq 'del(.access_token)')"
-          IAS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')
-          echo "::add-mask::$IAS_TOKEN"
-          echo "ias_token=$IAS_TOKEN" >> "$GITHUB_OUTPUT"
+          python3 - <<'EOF'
+          import json, os, sys, urllib.request, urllib.parse
+
+          sci_tenant_url = os.environ["SCI_TENANT_URL"]
+          sci_client_id  = os.environ["SCI_CLIENT_ID"]
+          github_output  = os.environ["GITHUB_OUTPUT"]
+
+          # Step 1: get short-lived GitHub OIDC JWT
+          req = urllib.request.Request(
+              f"{os.environ['ACTIONS_ID_TOKEN_REQUEST_URL']}&audience={sci_tenant_url}",
+              headers={
+                  "Authorization": f"Bearer {os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']}",
+                  "Accept": "application/json; api-version=2.0",
+              },
+          )
+          with urllib.request.urlopen(req) as resp:
+              github_jwt = json.loads(resp.read())["value"]
+
+          # Step 2: exchange GitHub JWT for IAS token using client_assertion (no client secret needed)
+          payload = urllib.parse.urlencode({
+              "grant_type": "client_credentials",
+              "client_id": sci_client_id,
+              "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "client_assertion": github_jwt,
+          }).encode()
+
+          req = urllib.request.Request(
+              f"{sci_tenant_url}/oauth2/token",
+              data=payload,
+              method="POST",
+              headers={"Content-Type": "application/x-www-form-urlencoded"},
+          )
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  response = json.loads(resp.read())
+          except urllib.error.HTTPError as e:
+              print(f"Error: IAS token request failed {e.code}: {e.read().decode()}")
+              sys.exit(1)
+
+          ias_token = response.get("access_token")
+          if not ias_token:
+              print(f"Error: no access_token in response: {response}")
+              sys.exit(1)
+
+          print("IAS token successfully retrieved")
+          print(f"::add-mask::{ias_token}")
+          with open(github_output, "a") as f:
+              f.write(f"ias_token={ias_token}\n")
+          EOF
 
       - name: Call IAS-protected backend service
         run: |
