@@ -17,7 +17,7 @@ jobs:
         id: ias_token
         env:
           SCI_TENANT_URL: ${{ vars.IAS_TENANT_URL }}
-          SCI_CLIENT_ID: ${{ vars.IAS_CLIENT_ID }}
+          SCI_CLIENT_ID: ${{ secrets.IAS_CLIENT_ID }}
         run: |
           python3 - <<'EOF'
           import json, os, sys, urllib.request, urllib.parse
