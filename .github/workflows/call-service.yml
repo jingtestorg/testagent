@@ -1,0 +1,56 @@
+name: Trigger IAS-Protected Service
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get GitHub OIDC token
+        id: github_token
+        run: |
+          GITHUB_TOKEN=$(curl -sSL \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            -H "Accept: application/json;api-version=2.0" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://${{ vars.IAS_TENANT }}" \
+            | jq -r '.value')
+          echo "::add-mask::$GITHUB_TOKEN"
+          echo "github_oidc_token=$GITHUB_TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Exchange GitHub OIDC token for IAS access token
+        id: ias_token
+        run: |
+          RESPONSE=$(curl -sSL -X POST \
+            "https://${{ vars.IAS_TENANT }}/oauth2/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer" \
+            -d "assertion=${{ steps.github_token.outputs.github_oidc_token }}" \
+            -d "client_id=${{ secrets.IAS_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.IAS_CLIENT_SECRET }}")
+          echo "Token exchange response: $(echo $RESPONSE | jq 'del(.access_token)')"
+          IAS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')
+          echo "::add-mask::$IAS_TOKEN"
+          echo "ias_token=$IAS_TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Call IAS-protected backend service
+        run: |
+          HTTP_STATUS=$(curl -sSL -o /tmp/response.json -w "%{http_code}" \
+            -X POST "${{ vars.SERVICE_URL }}/trigger" \
+            -H "Authorization: Bearer ${{ steps.ias_token.outputs.ias_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"source":"github-actions","ref":"${{ github.ref }}","sha":"${{ github.sha }}"}')
+
+          echo "HTTP status: $HTTP_STATUS"
+          echo "Response: $(cat /tmp/response.json)"
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "Service call failed with HTTP $HTTP_STATUS"
+            exit 1
+          fi
