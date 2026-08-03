@@ -1,39 +1,35 @@
-name: Deploy to Joule Studio (CLI)
+name: Deploy to Joule Studio
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   deploy:
-    runs-on: [solinas]
+    runs-on: ubuntu-latest
     permissions:
       id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
+      contents: read  # This is required for actions/checkout
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Joule Studio CLI
-        uses: ./.github/actions/setup-jl
+        uses: SAP/lifecycle-operation-actions-for-joule-studio/actions/setup-jl@main
 
       - name: Fetch SCI token
         id: fetch-token
-        uses: ./.github/actions/token-fetch
+        uses: SAP/lifecycle-operation-actions-for-joule-studio/actions/token-fetch@main
         with:
           sciTenantUrl: ${{ vars.SCI_TENANT_URL }}
           sciClientId: ${{ vars.SCI_CLIENT_ID }}
 
-      - name: Zip solution
-        id: zip-solution
-        uses: ./.github/actions/zip-solution-cli
-        with:
-          path: ${{ github.workspace }}
+      - name: Build solution
+        id: build-solution
+        uses: SAP/lifecycle-operation-actions-for-joule-studio/actions/build@main
 
       - name: Deploy solution
-        uses: ./.github/actions/deploy-solution-cli
+        uses: SAP/lifecycle-operation-actions-for-joule-studio/actions/deploy@main
         with:
           sciToken: ${{ steps.fetch-token.outputs.sciToken }}
-          solutionZip: ${{ steps.zip-solution.outputs.solutionZip }}
-          path: ${{ github.workspace }}
-          jouleStudioHost: https://api.dev.eu12.studio.joule.cloud.sap/cli/v1
+          jouleStudioUrl: ${{ vars.JOULE_STUDIO_URL }}
+          solutionZip: ${{ steps.build-solution.outputs.solutionZip }}
