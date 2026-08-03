@@ -23,4 +23,4 @@ runs:
       env:
         SCI_TENANT_URL: ${{ inputs.sciTenantUrl }}
         SCI_CLIENT_ID: ${{ inputs.sciClientId }}
-      run: python $GITHUB_ACTION_PATH/fetch.py
+      run: python3 $GITHUB_ACTION_PATH/fetch.py
