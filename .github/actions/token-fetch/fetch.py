@@ -68,7 +68,6 @@ if not sci_token:
     sys.exit(1)
 
 print("sci_token successfully retrieved")
-print(f"sci_token raw: {sci_token}")
 parts = sci_token.split(".")
 for part in parts[:2]:
     padded = part + "=" * (-len(part) % 4)
