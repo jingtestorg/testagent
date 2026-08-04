@@ -26,4 +26,4 @@ runs:
         JOULE_STUDIO_HOST: ${{ inputs.jouleStudioUrl }}
       run: |
         cd "${{ inputs.path }}"
-        jl solution deploy "${{ inputs.solutionZip }}" --force
+        jl solution deploy --force
