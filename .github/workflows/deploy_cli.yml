@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [solinas]
+    runs-on: ubuntu-latest
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
@@ -15,8 +15,6 @@ jobs:
 
       - name: Setup Joule Studio CLI
         uses: ./.github/actions/setup-jl
-        with:
-          npm-registry: https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm/
 
       - name: Fetch SCI token
         id: fetch-token
