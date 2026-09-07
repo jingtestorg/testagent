@@ -26,4 +26,5 @@ runs:
         JOULE_STUDIO_HOST: ${{ inputs.jouleStudioUrl }}
       run: |
         cd "${{ inputs.path }}"
+        rm -f -- .build
         jl solution deploy --force
