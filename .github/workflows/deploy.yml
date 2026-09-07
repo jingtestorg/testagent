@@ -14,7 +14,7 @@
 #   3. Grant this repository access to each organization variable and secret
 #   4. Complete the SCI client credentials configuration described in SETUP.md
 
-name: Deploy to Joule Studio
+name: Deploy to Joule Studio(new)
 
 on:
   workflow_dispatch:  # manual trigger only
