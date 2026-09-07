@@ -16,4 +16,5 @@ runs:
 
     - name: Install Joule Studio CLI
       shell: bash
-      run: npm install -g @sap/joule-work-dev-cli-early-adopters@prerelease --registry ${{ inputs.npm-registry }}
+      #TODO: print version
+      run: npm install -g @sap/joule-work-dev-cli-early-adopters@prerelease --registry ${{ inputs.npm-registry }} --prefer-online
