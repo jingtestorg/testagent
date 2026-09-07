@@ -1,0 +1,21 @@
+[
+  {"name": "get_metadata_sap_self", "title": "get_metadata_sap_self", "description": "Get metadata of the OData service"},
+  {"name": "batch_for_sap_self", "title": "batch_for_sap_self", "description": "Execute multiple OData operations in a single batch request"},
+  {"name": "list_a_costcentertext_2_for_sap_self", "title": "list_A_CostCenterText_2_for_sap_self", "description": "Retrieve a list of entities from the A_CostCenterText_2 collection"},
+  {"name": "create_a_costcentertext_2_for_sap_self", "title": "create_A_CostCenterText_2_for_sap_self", "description": "Create a new instance of the A_CostCenterText_2 EntitySet"},
+  {"name": "update_a_costcentertext_2_for_sap_self", "title": "update_A_CostCenterText_2_for_sap_self", "description": "Update an entity in A_CostCenterText_2 EntitySet"},
+  {"name": "delete_a_costcentertext_2_for_sap_self", "title": "delete_A_CostCenterText_2_for_sap_self", "description": "Delete an entity from A_CostCenterText_2 EntitySet"},
+  {"name": "get_a_costcentertext_2_for_sap_self", "title": "get_A_CostCenterText_2_for_sap_self", "description": "Retrieve a single entity by its key from the A_CostCenterText_2 collection"},
+  {"name": "count_a_costcentertext_2_for_sap_self", "title": "count_A_CostCenterText_2_for_sap_self", "description": "Get the total count of entities in the A_CostCenterText_2 collection"},
+  {"name": "list_a_costcenter_2_for_sap_self", "title": "list_A_CostCenter_2_for_sap_self", "description": "Retrieve a list of entities from the A_CostCenter_2 collection"},
+  {"name": "create_a_costcenter_2_for_sap_self", "title": "create_A_CostCenter_2_for_sap_self", "description": "Create a new instance of the A_CostCenter_2 EntitySet"},
+  {"name": "update_a_costcenter_2_for_sap_self", "title": "update_A_CostCenter_2_for_sap_self", "description": "Update an entity in A_CostCenter_2 EntitySet"},
+  {"name": "delete_a_costcenter_2_for_sap_self", "title": "delete_A_CostCenter_2_for_sap_self", "description": "Delete an entity from A_CostCenter_2 EntitySet"},
+  {"name": "get_a_costcenter_2_for_sap_self", "title": "get_A_CostCenter_2_for_sap_self", "description": "Retrieve a single entity by its key from the A_CostCenter_2 collection"},
+  {"name": "count_a_costcenter_2_for_sap_self", "title": "count_A_CostCenter_2_for_sap_self", "description": "Get the total count of entities in the A_CostCenter_2 collection"},
+  {"name": "get__costcenter_in_a_costcentertext_2_for_sap_self", "title": "get__CostCenter_in_A_CostCenterText_2_for_sap_self", "description": "Navigate from A_CostCenterText_2 to the related CostCenter_Type entity"},
+  {"name": "update__costcenter_in_a_costcentertext_2_for_sap_self", "title": "update__CostCenter_in_A_CostCenterText_2_for_sap_self", "description": "Update the CostCenter_Type entity navigated from A_CostCenterText_2"},
+  {"name": "list__costcentertext_in_a_costcenter_2_for_sap_self", "title": "list__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Navigate from A_CostCenter_2 to related CostCenterText_Type entities"},
+  {"name": "create__costcentertext_in_a_costcenter_2_for_sap_self", "title": "create__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Create a new CostCenterText_Type entity via the _CostCenterText navigation property"},
+  {"name": "count__costcentertext_in_a_costcenter_2_for_sap_self", "title": "count__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Count CostCenterText_Type entities accessible via _CostCenterText navigation"}
+]

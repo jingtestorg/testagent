@@ -1,0 +1,416 @@
+{
+  "servers": {
+    "sap-self": {
+      "mcp_server_name": "sap.mcp/sap_self",
+      "description": "MCP server for the sap_self service (SAP S/4HANA Cost Center OData API).",
+      "tools": {
+        "get_metadata_sap_self": {
+          "description": "Get metadata of the OData service.",
+          "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          },
+          "mock_response": "<edmx:Edmx Version=\"4.0\"><edmx:DataServices><Schema Namespace=\"com.sap.gateway.srvd_a2x.api_cost_center.v0001\"><EntityType Name=\"CostCenter_Type\"><Key><PropertyRef Name=\"ControllingArea\"/><PropertyRef Name=\"CostCenter\"/><PropertyRef Name=\"ValidityEndDate\"/></Key></EntityType></Schema></edmx:DataServices></edmx:Edmx>"
+        },
+        "batch_for_sap_self": {
+          "description": "Execute multiple OData operations in a single batch request.",
+          "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          },
+          "mock_response": {}
+        },
+        "list_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a list of entities from the A_CostCenter_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filter": {"type": "string", "description": "OData $filter expression"},
+              "select": {"type": "string", "description": "OData $select fields"},
+              "orderby": {"type": "string", "description": "OData $orderby expression"},
+              "top": {"type": "integer", "description": "OData $top - max number of results"},
+              "skip": {"type": "integer", "description": "OData $skip - number of results to skip"},
+              "expand": {"type": "string", "description": "OData $expand navigation"},
+              "count": {"type": "boolean", "description": "Include count in response"}
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenter": "CC-1000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(0)/",
+                "CostCenterName": "Corporate IT",
+                "CostCenterDescription": "Corporate Information Technology Department",
+                "CompanyCode": "1000",
+                "BusinessArea": "BA01",
+                "CostCenterCategory": "1",
+                "CostCtrResponsiblePersonName": "John Smith",
+                "CostCenterCurrency": "USD",
+                "ProfitCenter": "PC-1000",
+                "Department": "IT",
+                "Country": "US"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenter": "CC-2000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(0)/",
+                "CostCenterName": "Finance",
+                "CostCenterDescription": "Finance and Controlling Department",
+                "CompanyCode": "1000",
+                "BusinessArea": "BA02",
+                "CostCenterCategory": "1",
+                "CostCtrResponsiblePersonName": "Jane Doe",
+                "CostCenterCurrency": "USD",
+                "ProfitCenter": "PC-2000",
+                "Department": "FIN",
+                "Country": "US"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenter": "CC-3000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(0)/",
+                "CostCenterName": "Human Resources",
+                "CostCenterDescription": "Human Resources Department",
+                "CompanyCode": "1000",
+                "BusinessArea": "BA03",
+                "CostCenterCategory": "1",
+                "CostCtrResponsiblePersonName": "Alice Johnson",
+                "CostCenterCurrency": "USD",
+                "ProfitCenter": "PC-3000",
+                "Department": "HR",
+                "Country": "US"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenter": "CC-4000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(0)/",
+                "CostCenterName": "Sales",
+                "CostCenterDescription": "Sales and Marketing Department",
+                "CompanyCode": "1000",
+                "BusinessArea": "BA04",
+                "CostCenterCategory": "1",
+                "CostCtrResponsiblePersonName": "Bob Brown",
+                "CostCenterCurrency": "USD",
+                "ProfitCenter": "PC-4000",
+                "Department": "SALES",
+                "Country": "US"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenter": "CC-5000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(0)/",
+                "CostCenterName": "Operations",
+                "CostCenterDescription": "Operations and Supply Chain Department",
+                "CompanyCode": "1000",
+                "BusinessArea": "BA05",
+                "CostCenterCategory": "1",
+                "CostCtrResponsiblePersonName": "Carol White",
+                "CostCenterCurrency": "USD",
+                "ProfitCenter": "PC-5000",
+                "Department": "OPS",
+                "Country": "US"
+              }
+            ]
+          }
+        },
+        "count_a_costcenter_2_for_sap_self": {
+          "description": "Get the total count of entities in the A_CostCenter_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filter": {"type": "string", "description": "OData $filter expression"}
+            },
+            "required": []
+          },
+          "mock_response": 42
+        },
+        "get_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a single entity by its key from the A_CostCenter_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string", "description": "Controlling Area key"},
+              "costcenter": {"type": "string", "description": "Cost Center key"},
+              "validityenddate": {"type": "string", "description": "Validity End Date key"},
+              "select": {"type": "string"},
+              "expand": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenter": "CC-1000",
+            "ValidityEndDate": "/Date(9999999999000)/",
+            "ValidityStartDate": "/Date(0)/",
+            "CostCenterName": "Corporate IT",
+            "CostCenterDescription": "Corporate Information Technology Department",
+            "CompanyCode": "1000",
+            "BusinessArea": "BA01",
+            "CostCenterCategory": "1",
+            "CostCtrResponsiblePersonName": "John Smith",
+            "CostCenterCurrency": "USD",
+            "ProfitCenter": "PC-1000",
+            "Department": "IT",
+            "Country": "US"
+          }
+        },
+        "create_a_costcenter_2_for_sap_self": {
+          "description": "Create a new instance of the A_CostCenter_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "costcentername": {"type": "string"},
+              "costcenterdescription": {"type": "string"},
+              "companycode": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "costcentername", "companycode"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenter": "CC-9999",
+            "CostCenterName": "New Cost Center",
+            "CostCenterDescription": "Newly created cost center",
+            "CompanyCode": "1000"
+          }
+        },
+        "update_a_costcenter_2_for_sap_self": {
+          "description": "Update an entity in A_CostCenter_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "delete_a_costcenter_2_for_sap_self": {
+          "description": "Delete an entity from A_CostCenter_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "list_a_costcentertext_2_for_sap_self": {
+          "description": "Retrieve a list of entities from the A_CostCenterText_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filter": {"type": "string"},
+              "select": {"type": "string"},
+              "top": {"type": "integer"},
+              "skip": {"type": "integer"}
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "Language": "EN",
+                "ControllingArea": "A000",
+                "CostCenter": "CC-1000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "CostCenterName": "Corporate IT",
+                "CostCenterDescription": "Corporate Information Technology Department"
+              },
+              {
+                "Language": "EN",
+                "ControllingArea": "A000",
+                "CostCenter": "CC-2000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "CostCenterName": "Finance",
+                "CostCenterDescription": "Finance and Controlling Department"
+              }
+            ]
+          }
+        },
+        "count_a_costcentertext_2_for_sap_self": {
+          "description": "Get the total count of entities in the A_CostCenterText_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "filter": {"type": "string"}
+            },
+            "required": []
+          },
+          "mock_response": 42
+        },
+        "get_a_costcentertext_2_for_sap_self": {
+          "description": "Retrieve a single entity by its key from the A_CostCenterText_2 collection.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {
+            "Language": "EN",
+            "ControllingArea": "A000",
+            "CostCenter": "CC-1000",
+            "ValidityEndDate": "/Date(9999999999000)/",
+            "CostCenterName": "Corporate IT",
+            "CostCenterDescription": "Corporate Information Technology Department"
+          }
+        },
+        "create_a_costcentertext_2_for_sap_self": {
+          "description": "Create a new instance of the A_CostCenterText_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter"]
+          },
+          "mock_response": {}
+        },
+        "update_a_costcentertext_2_for_sap_self": {
+          "description": "Update an entity in A_CostCenterText_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "delete_a_costcentertext_2_for_sap_self": {
+          "description": "Delete an entity from A_CostCenterText_2 EntitySet.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "get__costcenter_in_a_costcentertext_2_for_sap_self": {
+          "description": "Navigate from A_CostCenterText_2 to the related CostCenter_Type entity.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenter": "CC-1000",
+            "CostCenterName": "Corporate IT",
+            "CompanyCode": "1000"
+          }
+        },
+        "update__costcenter_in_a_costcentertext_2_for_sap_self": {
+          "description": "Update the CostCenter_Type entity navigated from A_CostCenterText_2.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"}
+            },
+            "required": ["language", "controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "list__costcentertext_in_a_costcenter_2_for_sap_self": {
+          "description": "Navigate from A_CostCenter_2 to related CostCenterText_Type entities.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"},
+              "top": {"type": "integer"},
+              "filter": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {
+            "results": [
+              {
+                "Language": "EN",
+                "CostCenterName": "Corporate IT",
+                "CostCenterDescription": "Corporate Information Technology Department"
+              }
+            ]
+          }
+        },
+        "create__costcentertext_in_a_costcenter_2_for_sap_self": {
+          "description": "Create a new CostCenterText_Type entity via the _CostCenterText navigation property.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"},
+              "language": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": {}
+        },
+        "count__costcentertext_in_a_costcenter_2_for_sap_self": {
+          "description": "Count CostCenterText_Type entities via _CostCenterText navigation property.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "controllingarea": {"type": "string"},
+              "costcenter": {"type": "string"},
+              "validityenddate": {"type": "string"},
+              "filter": {"type": "string"}
+            },
+            "required": ["controllingarea", "costcenter", "validityenddate"]
+          },
+          "mock_response": 5
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_for_agent": "cost-center-querying-agent",
+    "mock_mode": true,
+    "deterministic": true,
+    "total_servers": 1,
+    "total_tools": 19,
+    "generated_from": ["translation.json"],
+    "generation_date": "2026-09-07"
+  }
+}

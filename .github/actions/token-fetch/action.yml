@@ -1,5 +1,5 @@
 name: Fetch SCI Token
-description: Obtains a short-lived GitHub-issued JWT and exchanges it for a Cloud Identity Services token.
+description: Exchanges SAP Cloud Identity Services client credentials for a short-lived access token.
 
 inputs:
   sciTenantUrl:
@@ -7,6 +7,9 @@ inputs:
     required: true
   sciClientId:
     description: Client ID of the SCI application
+    required: true
+  sciClientSecret:
+    description: Client secret of the SCI application
     required: true
 
 outputs:
@@ -23,4 +26,5 @@ runs:
       env:
         SCI_TENANT_URL: ${{ inputs.sciTenantUrl }}
         SCI_CLIENT_ID: ${{ inputs.sciClientId }}
-      run: python3 $GITHUB_ACTION_PATH/fetch.py
+        SCI_CLIENT_SECRET: ${{ inputs.sciClientSecret }}
+      run: python $GITHUB_ACTION_PATH/fetch.py
