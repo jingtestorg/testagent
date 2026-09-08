@@ -1,0 +1,34 @@
+{
+  "mcpTranslationVersion": "0.6",
+  "target": {
+    "ordId": "sap.s4:apiResource:CE_COSTCENTER_0001:v1",
+    "type": "edmx"
+  },
+  "serverInfo": {
+    "name": "sap.mcp/sap_self",
+    "title": "sap_self",
+    "version": "1.0.0",
+    "description": "MCP server for the sap_self service."
+  },
+  "tools": [
+    {"name": "get_metadata_sap_self", "title": "get_metadata_sap_self", "description": "Get metadata of the OData service.", "odataType": {"metadataRequest": {}}},
+    {"name": "batch_for_sap_self", "title": "batch_for_sap_self", "description": "Execute multiple OData operations in a single batch request.", "odataType": {"batchRequest": {}}},
+    {"name": "list_a_costcentertext_2_for_sap_self", "title": "list_A_CostCenterText_2_for_sap_self", "description": "Retrieve a list of entities from the A_CostCenterText_2 collection.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "read", "parameters": [{"name": "filter"}, {"name": "select"}, {"name": "orderby"}, {"name": "top"}, {"name": "skip"}, {"name": "expand"}, {"name": "count"}]}}},
+    {"name": "create_a_costcentertext_2_for_sap_self", "title": "create_A_CostCenterText_2_for_sap_self", "description": "Create a new instance of the A_CostCenterText_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "create", "parameters": []}}},
+    {"name": "update_a_costcentertext_2_for_sap_self", "title": "update_A_CostCenterText_2_for_sap_self", "description": "Update an entity in A_CostCenterText_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "update", "parameters": []}}},
+    {"name": "delete_a_costcentertext_2_for_sap_self", "title": "delete_A_CostCenterText_2_for_sap_self", "description": "Delete an entity from A_CostCenterText_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "delete", "parameters": []}}},
+    {"name": "get_a_costcentertext_2_for_sap_self", "title": "get_A_CostCenterText_2_for_sap_self", "description": "Retrieve a single entity by key from A_CostCenterText_2.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "readByKey", "parameters": []}}},
+    {"name": "count_a_costcentertext_2_for_sap_self", "title": "count_A_CostCenterText_2_for_sap_self", "description": "Get the total count of entities in the A_CostCenterText_2 collection.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "crudOperation": "count", "parameters": [{"name": "filter"}]}}},
+    {"name": "list_a_costcenter_2_for_sap_self", "title": "list_A_CostCenter_2_for_sap_self", "description": "Retrieve a list of entities from the A_CostCenter_2 collection.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "read", "parameters": [{"name": "filter"}, {"name": "select"}, {"name": "orderby"}, {"name": "top"}, {"name": "skip"}, {"name": "expand"}, {"name": "count"}]}}},
+    {"name": "create_a_costcenter_2_for_sap_self", "title": "create_A_CostCenter_2_for_sap_self", "description": "Create a new instance of the A_CostCenter_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "create", "parameters": []}}},
+    {"name": "update_a_costcenter_2_for_sap_self", "title": "update_A_CostCenter_2_for_sap_self", "description": "Update an entity in A_CostCenter_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "update", "parameters": []}}},
+    {"name": "delete_a_costcenter_2_for_sap_self", "title": "delete_A_CostCenter_2_for_sap_self", "description": "Delete an entity from A_CostCenter_2 EntitySet.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "delete", "parameters": []}}},
+    {"name": "get_a_costcenter_2_for_sap_self", "title": "get_A_CostCenter_2_for_sap_self", "description": "Retrieve a single entity by key from A_CostCenter_2.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "readByKey", "parameters": []}}},
+    {"name": "count_a_costcenter_2_for_sap_self", "title": "count_A_CostCenter_2_for_sap_self", "description": "Get the total count of entities in the A_CostCenter_2 collection.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "crudOperation": "count", "parameters": [{"name": "filter"}]}}},
+    {"name": "get__costcenter_in_a_costcentertext_2_for_sap_self", "title": "get__CostCenter_in_A_CostCenterText_2_for_sap_self", "description": "Navigate from A_CostCenterText_2 to the related CostCenter_Type entity.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "navigationProperty": {"name": "_CostCenter", "crudOperation": "readByKey", "parameters": []}}}},
+    {"name": "update__costcenter_in_a_costcentertext_2_for_sap_self", "title": "update__CostCenter_in_A_CostCenterText_2_for_sap_self", "description": "Update CostCenter_Type entity navigated from A_CostCenterText_2.", "odataType": {"entitySet": {"name": "A_CostCenterText_2", "navigationProperty": {"name": "_CostCenter", "crudOperation": "update", "parameters": []}}}},
+    {"name": "list__costcentertext_in_a_costcenter_2_for_sap_self", "title": "list__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Navigate from A_CostCenter_2 to related CostCenterText_Type entities.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "navigationProperty": {"name": "_CostCenterText", "crudOperation": "read", "parameters": []}}}},
+    {"name": "create__costcentertext_in_a_costcenter_2_for_sap_self", "title": "create__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Create a new CostCenterText_Type entity via the _CostCenterText navigation property.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "navigationProperty": {"name": "_CostCenterText", "crudOperation": "create", "parameters": []}}}},
+    {"name": "count__costcentertext_in_a_costcenter_2_for_sap_self", "title": "count__CostCenterText_in_A_CostCenter_2_for_sap_self", "description": "Count CostCenterText_Type entities via _CostCenterText navigation property.", "odataType": {"entitySet": {"name": "A_CostCenter_2", "navigationProperty": {"name": "_CostCenterText", "crudOperation": "count", "parameters": []}}}}
+  ]
+}

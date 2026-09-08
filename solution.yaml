@@ -2,9 +2,10 @@ apiVersion: solution.sap/v1
 kind: Solution
 
 metadata:
-  name: polite-general-purpose-agent-703ed
-  version: 1.0.0
-  description: A polite AI agent that answers any general-purpose query, prefacing every response with "Dear user, I am sorry, but ..."
+  name: finance-controller-cost-center-ef35f
+  version: "1.0.0"
+  description: "AI agent enabling Finance Controllers to query SAP S/4HANA cost center data in natural language"
 
 assets:
-  - ref: ./assets/polite-general-purpose-agent/asset.yaml
+  - ref: ./assets/sap-s4-ce-costcenter-0001-mcp-server/asset.yaml
+  - ref: ./assets/cost-center-querying-agent/asset.yaml
