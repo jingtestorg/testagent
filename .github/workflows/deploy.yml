@@ -36,9 +36,10 @@ jobs:
         id: fetch-token
         uses: ./.github/actions/token-fetch
         with:
-          sciTenantUrl: ${{ vars.SCI_TENANT_URL }}
-          sciClientId: ${{ vars.SCI_CLIENT_ID }}
+          sciTenantUrl: ${{ secrets.SCI_TENANT_URL }}
+          sciClientId: ${{ secrets.SCI_CLIENT_ID }}
           sciClientSecret: ${{ secrets.SCI_CLIENT_SECRET }}
+          jouleStudioUrl: ${{ secrets.JOULE_STUDIO_URL }}
 
       - name: Build solution
         id: build
