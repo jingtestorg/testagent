@@ -14,21 +14,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Joule Studio CLI
-        uses: ./.github/actions-oidc/actions/setup-jl
+        uses: ./.github/actions-oidc/setup-jl
 
       - name: Fetch SCI token
         id: fetch-token
-        uses: ./.github/actions-oidc/actions/token-fetch
+        uses: ./.github/actions-oidc/token-fetch
         with:
           sciTenantUrl: ${{ vars.SCI_TENANT_URL }}
           sciClientId: ${{ vars.SCI_CLIENT_ID }}
 
       - name: Build solution
         id: build-solution
-        uses: ./.github/actions-oidc/actions/build
+        uses: ./.github/actions-oidc/build
 
       - name: Deploy solution
-        uses: ./.github/actions-oidc/actions/deploy
+        uses: ./.github/actions-oidc/deploy
         with:
           sciToken: ${{ steps.fetch-token.outputs.sciToken }}
           jouleStudioUrl: ${{ vars.JOULE_STUDIO_URL }}
