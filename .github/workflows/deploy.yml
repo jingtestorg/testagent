@@ -50,4 +50,4 @@ jobs:
         with:
           sciToken: ${{ steps.fetch-token.outputs.sciToken }}
           solutionZip: ${{ steps.build.outputs.solutionZip }}
-          jouleStudioUrl: ${{ vars.SOLUTION_HANDLING_API_BASE_URL }}
+          jouleStudioUrl: ${{ secrets.JOULE_STUDIO_URL }}
