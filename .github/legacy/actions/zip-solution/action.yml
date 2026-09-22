@@ -1,0 +1,23 @@
+name: Zip Solution
+description: Zips a solution directory in preparation for deployment.
+
+inputs:
+  path:
+    description: Path to the solution directory to zip. Defaults to the repository root.
+    required: false
+    default: ${{ github.workspace }}
+
+outputs:
+  solutionZip:
+    description: Path to the created zip file
+    value: ${{ steps.zip.outputs.solutionZip }}
+
+runs:
+  using: composite
+  steps:
+    - name: Zip solution directory
+      id: zip
+      shell: bash
+      env:
+        SOLUTION_PATH: ${{ inputs.path }}
+      run: python $GITHUB_ACTION_PATH/zip.py
