@@ -1,0 +1,10 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: polite-general-purpose-agent-703ed
+  version: 1.0.0
+  description: A polite AI agent that answers any general-purpose query, prefacing every response with "Dear user, I am sorry, but ..."
+
+assets:
+  - ref: ./assets/polite-general-purpose-agent/asset.yaml

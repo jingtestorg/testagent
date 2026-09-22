@@ -1,0 +1,32 @@
+name: Deploy Solution (CLI)
+description: Deploys a solution zip to Joule Studio using the Joule Studio CLI.
+
+inputs:
+  sciToken:
+    description: The Cloud Identity Services access token
+    required: true
+  solutionZip:
+    description: Path to the zipped solution file
+    required: true
+  path:
+    description: Path to the solution directory. Defaults to the repository root.
+    required: false
+    default: ${{ github.workspace }}
+  jouleStudioHost:
+    description: Base URL of the Joule Studio CLI API
+    required: false
+    default: https://api.dev.eu12.studio.joule.cloud.sap/cli/v1
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy solution
+      shell: bash
+      env:
+        JOULE_STUDIO_TOKEN: ${{ inputs.sciToken }}
+        JOULE_STUDIO_HOST: ${{ inputs.jouleStudioHost }}
+      run: |
+        cd "${{ inputs.path }}"
+        jl version
+        # jl solution list
+        jl solution deploy "${{ inputs.solutionZip }}" --force

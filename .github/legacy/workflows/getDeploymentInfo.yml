@@ -1,0 +1,88 @@
+name: Get Deployment Info
+
+on:
+  workflow_dispatch:
+    inputs:
+      cisTenantUrl:
+        description: "Issuer URI of the SAP Cloud Identity Services tenant"
+        default: "https://sapdasdev.accounts400.ondemand.com"
+        required: true
+      iasClientId:
+        description: "Client ID of the IAS application"
+        default: "e8d726ff-08c9-4ee1-963f-1236f222df88"
+        required: true
+      solutionHandlingApiBaseUrl:
+        description: "The base URL of the solution handling API"
+        default: "https://ap-web-agent-srv-dev.cfapps.eu12.hana.ondemand.com/api/v1/solutions"
+        required: true
+      solutionId:
+        description: "Solution ID"
+        required: true
+      version:
+        description: "Solution version"
+        default: main
+        required: true
+
+env:
+  CIS_TENANT_URL: ${{ inputs.cisTenantUrl }}
+  IAS_CLIENT_ID: ${{ inputs.iasClientId }}
+  API_BASE_URL: ${{ inputs.solutionHandlingApiBaseUrl }}
+  SOLUTION_ID: ${{ inputs.solutionId }}
+  VERSION: ${{ inputs.version }}
+
+jobs:
+  do:
+    runs-on: [solinas]
+    # script based on: https://docs.github.com/en/enterprise-server@3.9/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-cloud-providers
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
+    steps:
+      - name: Show provided parameters
+        run: |
+          echo ""
+          echo "- cisTenantUrl: $CIS_TENANT_URL"
+          echo "- iasClientId: $IAS_CLIENT_ID"
+          echo "- solutionId: $SOLUTION_ID"
+          echo "- version: $VERSION"
+
+      - name: Get short-lived GitHub-issued JWT
+        id: get-github-jwt
+        run: |
+          githubJwt=$(curl -sS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" -H "Accept: application/json; api-version=2.0" -H "Content-Type: application/json" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$CIS_TENANT_URL" | jq -r '.value')
+          echo $githubJwt | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+          echo "githubJwt=$githubJwt" >> $GITHUB_OUTPUT
+
+      - name: Get IAS Token
+        id: get-ias-token
+        run: |
+
+          response=$(
+              curl -sS -XPOST \
+              -H 'Content-Type: application/x-www-form-urlencoded'\
+              -d 'grant_type=client_credentials'\
+              -d "client_id=$IAS_CLIENT_ID"\
+              -d 'resource=urn:sap:identity:application:provider:name:build'\
+              -d "client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer"\
+              -d "client_assertion=${{steps.get-github-jwt.outputs.githubJwt}}"\
+              $CIS_TENANT_URL/oauth2/token)
+          ias_token=$(echo $response | jq -r .access_token)
+          if [[ -z "$ias_token" || "$ias_token" = 'null' ]]; then
+            echo "ias_token was not retrieved"
+            echo "error response from IAS: $response"
+            exit -1
+          else
+            echo "ias_token successfully retrieved"
+            echo $ias_token | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+            echo "iasJwt=$ias_token" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get deployment info
+        run: |
+          set -x
+          JWT="${{ steps.get-ias-token.outputs.iasJwt }}"
+          echo "::add-mask::$JWT"
+          curl -sS --fail-with-body -H "Authorization: Bearer ${JWT}" \
+            "${API_BASE_URL}/${SOLUTION_ID}" | jq .
+          curl -sS --fail-with-body -H "Authorization: Bearer ${JWT}" \
+            "${API_BASE_URL}/${SOLUTION_ID}/versions/${VERSION}" | jq .
